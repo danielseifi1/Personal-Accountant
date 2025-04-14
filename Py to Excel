@@ -1,0 +1,76 @@
+import pandas as pd
+
+# ساختار شیت "حساب‌ها"
+data_accounts = {
+    'شناسه حساب (Account ID)': ['ACC-001', 'ACC-002', 'ACC-003', 'ACC-004'],
+    'نام حساب (Account Name)': ['حساب جاری بانک ملت', 'کارت اعتباری', 'کیف پول نقدی', 'حساب آنلاین زرین‌پال'],
+    'نوع حساب (Account Type)': ['بانکی', 'اعتباری', 'نقدی', 'آنلاین'],
+    'واحد پول (Currency)': ['IRR', 'IRR', 'IRR', 'IRR'],
+    'موجودی فعلی (Current Balance)': [1500000, -500000, 250000, 120000],
+    'موجودی اولیه (Initial Balance)': [1000000, 0, 300000, 100000],
+    'توضیحات (Description)': [None, 'کارت خرید', None, 'برای پرداخت‌های آنلاین']
+}
+df_accounts = pd.DataFrame(data_accounts)
+
+# ساختار شیت "درآمدها"
+data_incomes = {
+    'شناسه درآمد (Income ID)': ['INC-20250414-001', 'INC-20250415-002', 'INC-20250416-003'],
+    'تاریخ دریافت (Date Received)': ['2025-04-14', '2025-04-15', '2025-04-16'],
+    'مبلغ (Amount)': [2000000, 500000, 300000],
+    'منبع درآمد اصلی (Main Source ID)': ['SRC-001', 'SRC-002', 'SRC-001'],
+    'زیرمنبع درآمد (Sub-Source)': ['حقوق ماهانه فروردین', 'پاداش پروژه', 'حقوق ماهانه اردیبهشت (پیش پرداخت)'],
+    'شناسه حساب واریز کننده (Account ID)': ['ACC-001', 'ACC-001', 'ACC-001'],
+    'توضیحات (Description)': [None, 'بابت تکمیل فاز اول', None],
+    'یادداشت‌های داخلی (Internal Notes)': [None, 'تأیید شده توسط مدیر', None]
+}
+df_incomes = pd.DataFrame(data_incomes)
+
+# ساختار شیت "هزینه‌ها"
+data_expenses = {
+    'شناسه هزینه (Expense ID)': ['EXP-20250414-001', 'EXP-20250414-002', 'EXP-20250415-003'],
+    'تاریخ پرداخت (Date Paid)': ['2025-04-14', '2025-04-14', '2025-04-15'],
+    'مبلغ (Amount)': [350000, 80000, 120000],
+    'دسته‌بندی هزینه اصلی (Main Category ID)': ['CAT-002', 'CAT-003', 'CAT-001'],
+    'زیردسته‌بندی هزینه (Sub-Category)': ['سوپرمارکت هفتگی', 'بنزین خودرو', 'ناهار رستوران'],
+    'روش پرداخت (Account ID)': ['ACC-001', 'ACC-002', 'ACC-003'],
+    'توضیحات (Description)': ['خرید مواد غذایی', 'برای رفت و آمد', None],
+    'رسید (Receipt URL/Path)': [None, '/path/to/receipt1.jpg', None]
+}
+df_expenses = pd.DataFrame(data_expenses)
+
+# ساختار شیت "انتقالات"
+data_transfers = {
+    'شناسه انتقال (Transfer ID)': ['TRN-20250414-001', 'TRN-20250415-002'],
+    'تاریخ انتقال (Date Transferred)': ['2025-04-14', '2025-04-15'],
+    'شناسه حساب مبدأ (From Account ID)': ['ACC-001', 'ACC-003'],
+    'شناسه حساب مقصد (To Account ID)': ['ACC-003', 'ACC-004'],
+    'مبلغ (Amount)': [100000, 50000],
+    'توضیحات (Description)': ['انتقال برای خرید', 'شارژ حساب آنلاین']
+}
+df_transfers = pd.DataFrame(data_transfers)
+
+# ساختار شیت "منابع درآمد اصلی"
+data_income_sources = {
+    'شناسه منبع اصلی (Main Source ID)': ['SRC-001', 'SRC-002', 'SRC-003'],
+    'نام منبع اصلی (Main Source Name)': ['حقوق', 'پروژه', 'سایر']
+}
+df_income_sources = pd.DataFrame(data_income_sources)
+
+# ساختار شیت "دسته‌بندی‌های هزینه اصلی"
+data_expense_categories = {
+    'شناسه دسته‌بندی اصلی (Main Category ID)': ['CAT-001', 'CAT-002', 'CAT-003', 'CAT-004'],
+    'نام دسته‌بندی اصلی (Main Category Name)': ['خوراک', 'ضروریات', 'حمل و نقل', 'تفریح']
+}
+df_expense_categories = pd.DataFrame(data_expense_categories)
+
+# ایجاد فایل اکسل و نوشتن DataFrames در شیت‌های مختلف
+excel_file = 'حسابداری_شخصی.xlsx'
+with pd.ExcelWriter(excel_file) as writer:
+    df_accounts.to_excel(writer, sheet_name='حساب‌ها', index=False)
+    df_incomes.to_excel(writer, sheet_name='درآمدها', index=False)
+    df_expenses.to_excel(writer, sheet_name='هزینه‌ها', index=False)
+    df_transfers.to_excel(writer, sheet_name='انتقالات', index=False)
+    df_income_sources.to_excel(writer, sheet_name='منابع درآمد اصلی', index=False)
+    df_expense_categories.to_excel(writer, sheet_name='دسته‌بندی‌های هزینه اصلی', index=False)
+
+print(f"فایل اکسل '{excel_file}' با موفقیت ایجاد شد.")
